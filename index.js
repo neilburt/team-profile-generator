@@ -1,6 +1,7 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 const jest = require('jest');
+const Employee = require('./lib/Employee');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
@@ -121,7 +122,7 @@ const start = () => {
   }
 
   const renderTeam = () => {
-    fs.writeFile('./output/team.html', generate(team), (error) => {
+    fs.writeFile('./output/team-profile.html', generate(team), (error) => {
       (error) ? console.log(error) : console.log("Your Team web page is complete!")
     })
   }
