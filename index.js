@@ -1,17 +1,132 @@
-const fs = require('fs')
-const inquirer = require('Inquirer')
-const jest = require('Jest')
-const Engineer = require('./lib/Engineer')
-const Intern = require('./lib/Intern')
-const Manager = require('./lib/Manager')
+const fs = require('fs');
+const inquirer = require('inquirer');
+const jest = require('jest');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+const Manager = require('./lib/Manager');
+const generate = require('./src/genesis');
 
+const team = [];
 
-// require in a package that has all of the functions you need
-// that package can require in the classes
+const start = () => {
 
-askForManagerInfo();{
-  inquirer
-    .prompt([
+  const managerInput = () => {
+    inquirer.prompt([
+    {
+      name: "managerName",
+      type: 'input',
+      message: "Please enter the name of the project manager."
+    },
+    {
+      name: "managerId",
+      type: 'input',
+      message: "Please enter the manager's ID number."
+    },
+    {
+      name: "managerEmail",
+      type: 'input',
+      message: "Please enter the manager's email address."
+    },
+    {
+      name: "officeNumber",
+      type: 'input',
+      message: "Please enter the manager's office number."
+    }
+    ]).then(resp => {
+      const manager = new Manager(resp.managerName, resp.managerId, resp.managerEmail, resp.officeNumber);
+      team.push(manager);
+      buildTeam();
+    })
+  }
 
-  ]).then(makeManager)
+  const buildTeam = () => {
+    inquirer.prompt([
+      {
+        name: "memberType",
+        type: 'list',
+        message: "What type of member are you adding to the team?",
+        choices: ["Engineer", "Intern", "None; my team is complete."]
+      }
+    ]).then(resp => {
+      switch(resp.memberType){
+        case "Engineer":
+          addEngineer();
+          break;
+        case "Intern":
+          addIntern();
+          break;
+
+        default:
+          renderTeam();
+      }
+    })
+  }
+
+  const addEngineer = () => {
+    inquirer.prompt([
+      {
+        name: "engineerName",
+        type: 'input',
+        message: "Please enter the engineer's name."
+      },
+      {
+        name: "engineerId",
+        type: 'input',
+        message: "Please enter the engineer's ID number."
+      },
+      {
+        name: "engineerEmail",
+        type: 'input',
+        message: "Please enter the engineer's email address."
+      },
+      {
+        name: "gitHub",
+        type: 'input',
+        message: "Please enter the engineer's GitHub profile name."
+      }
+    ]).then(resp => {
+      const engineer = new Engineer(resp.engineerName, resp.engineerId, resp.engineerEmail, resp.gitHub);
+      team.push(engineer);
+      buildTeam();
+    })
+  }
+
+  const addIntern = () => {
+    inquirer.prompt([
+      {
+        name: "internName",
+        type: 'input',
+        message: "Please enter the intern's name."
+      },
+      {
+        name: "internId",
+        type: 'input',
+        message: "Please enter the intern's ID number."
+      },
+      {
+        name: "internEmail",
+        type: 'input',
+        message: "Please enter the intern's email address."
+      },
+      {
+        name: "school",
+        type: 'input',
+        message: "Please enter the school that the intern attended."
+      }
+    ]).then(resp => {
+      const intern = new Intern(resp.internName, resp.internId, resp.internEmail, resp.school);
+      team.push(intern);
+      buildTeam();
+    })
+  }
+
+  const renderTeam = () => {
+    fs.writeFile('./output/team.html', generate(team), (error) => {
+      (error) ? console.log(error) : console.log("Your Team web page is complete!")
+    })
+  }
+
+  managerInput();
 }
+
+start();
