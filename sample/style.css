@@ -1,0 +1,25 @@
+body {
+  background-color: hsl(0, 0%, 75%);
+  font-family: 'Quicksand', sans-serif;
+}
+
+h1 {
+  font-family: 'Graduate', monospace;
+}
+
+.jumbotron {
+  background-color: hsl(180, 100%, 41%);
+}
+
+.cards {
+  flex-wrap: wrap;
+}
+
+.card-header {
+  text-align: center;
+  background-color: hsl(9, 100%, 75%);
+}
+
+.card {
+  min-width: 20%;
+}
