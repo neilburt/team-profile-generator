@@ -9,8 +9,10 @@ const generate = require('./src/genesis');
 
 const team = [];
 
+// houses all of the inquirer functionality; prompts the user for all information to be used for HTML
 const start = () => {
 
+  // begins by prompting user for manager information
   const managerInput = () => {
     inquirer.prompt([
     {
@@ -40,6 +42,7 @@ const start = () => {
     })
   }
 
+  // user determines which type of member to build or if the team is complete
   const buildTeam = () => {
     inquirer.prompt([
       {
@@ -63,6 +66,7 @@ const start = () => {
     })
   }
 
+  // user builds engineer
   const addEngineer = () => {
     inquirer.prompt([
       {
@@ -92,6 +96,7 @@ const start = () => {
     })
   }
 
+  // user builds intern
   const addIntern = () => {
     inquirer.prompt([
       {
@@ -121,6 +126,7 @@ const start = () => {
     })
   }
 
+  // uses exported function from genesis.js in src folder to render final HTML based on user input
   const renderTeam = () => {
     fs.writeFile('./output/team-profile.html', generate(team), (error) => {
       (error) ? console.log(error) : console.log("Your Team web page is complete!")
