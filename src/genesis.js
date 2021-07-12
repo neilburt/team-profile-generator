@@ -1,7 +1,9 @@
 const HTML = []
 
+// compiles all team members to HTML
 const generatePage = myTeam => {
 
+  // renders head of the page along with the manager HTML 
   const managerCard = (manager) => {
     return `
     <!DOCTYPE html>
@@ -51,6 +53,7 @@ const generatePage = myTeam => {
         </div>`
   }
 
+  // adds the head of the page and the manager through the template above to the HTML
   HTML.push(myTeam.filter(member => member.getRole() === "Manager").map(manager => managerCard(manager)));
 
   const engineerCard = (engineer) => {
@@ -66,6 +69,7 @@ const generatePage = myTeam => {
     </div>`
   }
 
+  // adds each engineer object through the template above to the HTML
   HTML.push(myTeam.filter(member => member.getRole() === "Engineer").map(engineer => engineerCard(engineer)).join(``));
 
   const internCard = (intern) => {
@@ -81,11 +85,13 @@ const generatePage = myTeam => {
     </div>`
   }
 
+  // adds each intern object through the template above to the HTML
   HTML.push(myTeam.filter(member => member.getRole() === "Intern").map(intern => internCard(intern)).join(``));
 
   return HTML.join(``);
 }
 
+// finishes the HTML page and exports the product
 module.exports = function (myTeam){
   return `
     ${generatePage(myTeam)}
